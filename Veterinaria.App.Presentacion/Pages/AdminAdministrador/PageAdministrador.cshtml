@@ -1,0 +1,183 @@
+﻿@page
+@model Veterinaria.App.Presentacion.Pages.PageAdministradorModel
+@{
+}
+
+<h3>Administra Información sobre Administradores! <span class="badge badge-secondary"></span></h3>
+@* <button type="submit" class="btn btn-secondary bg-danger" onclick-"actualizarLista()">Actualizar lista</button> *@
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                    data-target="#id-collapse-listar-administrador" aria-expanded="false"
+                    aria-controls="id-collapse-listar-administrador">
+                    Listar Administradores
+                </button>
+            </h2>
+        </div>
+        <div id="id-collapse-listar-administrador" class="@(Model.modePage == "adicion" ? "collapse show" : "collapse")"
+            aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Edad</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">FechaNacimiento</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Contraseña</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ad in Model.listaAdministrador)
+                        {
+                            <tr>
+                                <td>@ad.Id</td>
+                                <td>@ad.Nombre</td>
+                                <td>@ad.Telefono</td>
+                                <td>@ad.Edad</td>
+                                <td>@ad.Direccion</td>
+                                <td>@ad.FechaNacimiento</td>
+                                <td>@ad.Correo</td>
+                                <td>
+                                    <div class="container">
+                                        <div class="row" style="width: 230px;">
+                                            <div class="col-sm">
+                                                <a class="btn btn-primary bg-success"
+                                                asp-page="/AdminAdministrador/PageAdministrador"
+                                                asp-route-idAdministrador="@ad.Id" style="margin-right: 20px">Editar</a>
+                                            </div>
+                                            <div class="col-sm">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#exampleModal">
+                                                    Eliminar
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar
+                                                                        Administrador
+                                                                    </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    ¿Deseas eliminar el administrador?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
+                                                                    <form method="POST">
+                                                                        <button type="submit" class="btn btn-primary bg-danger"
+                                                                        asp-page-handler="Del"
+                                                                        asp-route-IdAdministrador="@ad.Id">Eliminar</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            <div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse"
+                    data-target="#id-collapse-admin-administrador" aria-expanded="true"
+                    aria-controls="id-collapse-admin-administrador">
+                    Administrador Administradores
+                </button>
+            </h2>
+        </div>
+        <div id="id-collapse-admin-administrador" class="@(Model.modePage == "edicion" ? "collapse show" : "collapse")"
+            aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="form-row">
+                        <fieldset disabled>
+                            <div class="form-group col-md-8">
+                                <label for="id-administrador">IdAdministrador</label>
+                                <input type="text" asp-for="@Model.adminNow.Id" id="id-administrador"
+                                    class="form-control" placeholder="IdAdministrador" name="Id">
+                            </div>
+                        </fieldset>
+
+                        <input type="text" asp-for="@Model.adminNow.Id"  type="hidden" id="id-administrador"
+                            class="form-control" placeholder="IdAdministrador" name="Id">
+
+                        <div class="form-group col-md-6">
+                            <label for="id-nombred">Nombre del Administrador</label>
+                            <input required asp-for="@Model.adminNow.Nombre" type="text" id="id-nombred"
+                                class="form-control" placeholder="Digita Nombre del Dueño" name="Nombre">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="id-fechanac">Fecha de Nacimiento</label>
+                            <input required asp-for="@Model.adminNow.FechaNacimiento" type="Date" class="form-control"
+                                id="id-fechanac" placeholder="Selecciona Fecha Nacimiento" name="FechaNacimiento">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="id-edad">Edad</label>
+                            <input required asp-for="@Model.adminNow.Edad" type="text" id="id-edad" class="form-control"
+                                placeholder="Digita la Edad" name="Edad">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="id-direccion">Dirección</label>
+                            <input required asp-for="@Model.adminNow.Direccion" id="id-direccion" type="text"
+                                class="form-control" placeholder="Digita la dirección" name="Direccion">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="id-telefono">Teléfono</label>
+                            <input required asp-for="@Model.adminNow.Telefono" type="number" id="id-telefono"
+                                class="form-control" placeholder="Digita Número de Teléfono" name="Telefono">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="id-correo">Correo Electrónico</label>
+                            <input required asp-for="@Model.adminNow.Correo" id="id-correo" type="email"
+                                class="form-control" placeholder="Digita el correo" name="Correo">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="id-contra">Contraseña</label>
+                            <input id="id-contra" type="password" class="form-control"
+                                placeholder="Digita la contraseña" name="Contrasena">
+                        </div>
+                    </div>
+                    <div class="container m-4">
+                        <div class="row">
+                            <button class="btn btn-primary mr-2" asp-page-handler="Add">
+                                Agregar
+                            </button>
+
+                            @if (Model.modePage == "edicion")
+                            {
+                                <button type="submit" class="btn btn-primary" style="margin-right: 20px"
+                                asp-page-handler="Edit">
+                                    Editar
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
